@@ -1,0 +1,25 @@
+// Algorithm: Optimal Binary Search Tree
+// Type: Dynamic Programming
+// Time Complexity: O(n³)
+// Space Complexity: O(n²)
+
+function optimalBST(keys, freq, n):
+    dp = 2D array of size n x n
+
+    for i from 0 to n-1:
+        dp[i][i] = freq[i]
+
+    for L from 2 to n:
+        for i from 0 to n - L + 1:
+            j = i + L - 1
+            dp[i][j] = ∞
+            sumFreq = sum(freq[i..j])
+
+            for r from i to j:
+                cost = (dp[i][r - 1] if r > i else 0) +
+                       (dp[r + 1][j] if r < j else 0) +
+                       sumFreq
+                dp[i][j] = min(dp[i][j], cost)
+
+    return dp[0][n-1]
+

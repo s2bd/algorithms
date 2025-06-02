@@ -1,0 +1,23 @@
+# Algorithm: Prim's Algorithm
+# Type: Minimum Spanning Tree, Greedy
+# Time Complexity: O(E log V) with a priority queue
+# Space Complexity: O(V + E)
+
+function Prim(graph, start):
+    create a priority queue Q
+    create a set MST to store MST edges
+    create a distance array dist initialized with infinity
+    dist[start] = 0
+    add start vertex to Q with priority 0
+
+    while Q is not empty:
+        u = vertex in Q with smallest dist
+        remove u from Q
+        add u to MST
+
+        for each neighbor v of u:
+            if v not in MST and weight(u, v) < dist[v]:
+                dist[v] = weight(u, v)
+                update priority of v in Q to dist[v]
+
+    return MST edges

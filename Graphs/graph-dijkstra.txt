@@ -1,0 +1,21 @@
+# Algorithm: Dijkstra’s Algorithm
+# Type: Graph Shortest Path, Greedy
+# Time Complexity: O((V + E) log V) using min-priority queue (binary heap)
+# Space Complexity: O(V) for distance and priority queue
+
+function Dijkstra(graph, start):
+    create dist array, fill with infinity
+    dist[start] = 0
+
+    create min-priority queue and insert (start, 0)
+
+    while queue not empty:
+        (node, currentDist) = extract min from queue
+        if currentDist > dist[node]:
+            continue
+        for each neighbor, weight in graph[node]:
+            if dist[node] + weight < dist[neighbor]:
+                dist[neighbor] = dist[node] + weight
+                insert/update (neighbor, dist[neighbor]) in queue
+
+    return dist

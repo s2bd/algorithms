@@ -1,0 +1,22 @@
+// Algorithm: Huffman Coding
+// Type: Greedy
+// Time Complexity: O(n log n)       // where n is number of characters
+// Space Complexity: O(n)            // for priority queue and tree
+
+function HuffmanCoding(charFreq):
+    create priorityQueue Q and insert all characters with freq
+
+    while Q has more than 1 node:
+        left = Q.popMin()
+        right = Q.popMin()
+        newNode = merge(left, right)
+        Q.insert(newNode)
+
+    return Q.pop()  // root of Huffman Tree
+
+function printCodes(root, code):
+    if root is a leaf:
+        print root.char and code
+    else:
+        printCodes(root.left, code + "0")
+        printCodes(root.right, code + "1")

@@ -1,0 +1,11 @@
+# Algorithm: Bubble Sort
+# Type: Sorting, Comparison based
+# Time Complexity: O(n^2)
+# Space Complexity: O(1)
+
+function bubbleSort(arr):
+    n = length(arr)
+    for i in 0 to n-1:
+        for j in 0 to n-i-2:
+            if arr[j] > arr[j+1]:
+                swap arr[j], arr[j+1]

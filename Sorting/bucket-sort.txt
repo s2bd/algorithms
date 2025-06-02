@@ -1,0 +1,16 @@
+# Algorithm: Bucket Sort
+# Type: Sorting, Non-comparison based
+# Time Complexity: O(n + k) average, where k is number of buckets
+# Space Complexity: O(n + k)
+
+function bucketSort(arr, bucketCount):
+    create buckets = array of empty lists of size bucketCount
+
+    for each element in arr:
+        index = floor(element * bucketCount / maxValue)
+        buckets[index].append(element)
+
+    for each bucket in buckets:
+        sort(bucket)  # usually insertion sort
+
+    return concatenation of all buckets

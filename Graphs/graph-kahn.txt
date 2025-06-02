@@ -1,0 +1,26 @@
+// Algorithm: Topological Sort (Kahn's Algorithm)
+// Type: Graph, Directed Acyclic Graph (DAG), BFS-based
+// Time Complexity: O(V + E)
+// Space Complexity: O(V + E)
+
+function kahnTopologicalSort(graph):
+    indegree = array of 0s for all vertices
+    for each node in graph:
+        for neighbor in graph[node]:
+            indegree[neighbor] += 1
+
+    queue = all nodes with indegree 0
+    result = []
+
+    while queue not empty:
+        node = dequeue
+        result.append(node)
+        for neighbor in graph[node]:
+            indegree[neighbor] -= 1
+            if indegree[neighbor] == 0:
+                enqueue(neighbor)
+
+    if result.size == total nodes:
+        return result
+    else:
+        return "Cycle detected"

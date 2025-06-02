@@ -1,0 +1,16 @@
+# Algorithm: Kruskal's Algorithm
+# Type: Minimum Spanning Tree, Greedy
+# Time Complexity: O(E log E) due to sorting edges
+# Space Complexity: O(V) for Union-Find data structure
+
+function Kruskal(graph):
+    MST = empty set
+    sort all edges in non-decreasing order by weight
+    create Union-Find data structure for vertices
+
+    for each edge (u, v) in sorted edges:
+        if find(u) != find(v):
+            MST.add(edge)
+            union(u, v)
+
+    return MST

@@ -1,0 +1,19 @@
+// Algorithm: Fractional Knapsack Problem
+// Type: Greedy Algorithm
+// Time Complexity: O(n log n)
+// Space Complexity: O(n)
+
+function fractionalKnapsack(values, weights, capacity):
+    items = [(value/weight, value, weight) for each item]
+    sort items by ratio descending
+
+    totalValue = 0
+    for each item in sorted items:
+        if capacity >= item.weight:
+            totalValue += item.value
+            capacity -= item.weight
+        else:
+            totalValue += item.ratio * capacity
+            break
+
+    return totalValue

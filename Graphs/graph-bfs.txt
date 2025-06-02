@@ -1,0 +1,18 @@
+# Algorithm: Breadth-First Search (BFS)
+# Type: Graph Traversal, Queue-based
+# Time Complexity: O(V + E)
+# Space Complexity: O(V)
+
+function BFS(graph, start):
+    create visited set
+    create queue
+    enqueue start
+    mark start visited
+
+    while queue not empty:
+        node = dequeue
+        process node
+        for each neighbor in graph[node]:
+            if neighbor not visited:
+                enqueue neighbor
+                mark neighbor visited

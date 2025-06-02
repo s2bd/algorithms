@@ -1,0 +1,15 @@
+// Algorithm: Activity Selection
+// Type: Greedy
+// Time Complexity: O(n log n)   [due to sorting]
+// Space Complexity: O(1)        [ignoring output list]
+
+function activitySelection(start[], end[], n):
+    sort activities by end time
+    select first activity
+    last_end = end[0]
+
+    for i from 1 to n-1:
+        if start[i] >= last_end:
+            select activity i
+            last_end = end[i]
+

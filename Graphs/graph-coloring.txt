@@ -1,0 +1,27 @@
+// Algorithm: Graph Coloring (M-Coloring Problem)
+// Type: Backtracking
+// Time Complexity: O(M^V)        // M colors for each of V vertices
+// Space Complexity: O(V)         // To store colors assigned
+
+function graphColoring(graph, m):
+    colors = array of size V filled with 0
+
+    function isSafe(node, c):
+        for each neighbor of node:
+            if colors[neighbor] == c:
+                return false
+        return true
+
+    function solve(node):
+        if node == V:
+            return true
+        for c in 1 to m:
+            if isSafe(node, c):
+                colors[node] = c
+                if solve(node + 1):
+                    return true
+                colors[node] = 0
+        return false
+
+    return solve(0)
+

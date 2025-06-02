@@ -1,0 +1,20 @@
+// Algorithm: Fast Fourier Transform (for Polynomial Multiplication)
+// Type: Divide and Conquer, Computational Algebra
+// Time Complexity: O(n log n)
+// Space Complexity: O(n)
+
+function FFT(A):
+    n = length(A)
+    if n == 1:
+        return A
+    ω_n = e^(2πi / n)
+    ω = 1
+    A_even = FFT([A[0], A[2], ..., A[n-2]])
+    A_odd = FFT([A[1], A[3], ..., A[n-1]])
+    y = array of size n
+    for k = 0 to n/2 - 1:
+        y[k] = A_even[k] + ω * A_odd[k]
+        y[k + n/2] = A_even[k] - ω * A_odd[k]
+        ω = ω * ω_n
+    return y
+

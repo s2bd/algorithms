@@ -1,0 +1,21 @@
+// Algorithm: Topological Sort
+// Type: Graph, Directed Acyclic Graph (DAG), DFS-based
+// Time Complexity: O(V + E)
+// Space Complexity: O(V)
+
+function topoSort(graph):
+    visited = set()
+    stack = []
+
+    for each node in graph:
+        if node not in visited:
+            dfs(node, visited, stack)
+
+    return reverse(stack)
+
+function dfs(node, visited, stack):
+    mark node as visited
+    for neighbor in node's adjacency list:
+        if neighbor not visited:
+            dfs(neighbor, visited, stack)
+    stack.push(node)

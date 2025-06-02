@@ -1,0 +1,38 @@
+# Algorithm: Hashing Collision Resolution - Open Addressing (Linear Probing)
+# Type: Hash Table, Collision Resolution
+# Time Complexity: Average O(1), Worst O(n)
+# Space Complexity: O(n)
+
+initialize table array of size with null values
+
+function hashFunction(key, size):
+    return key mod size
+
+function probeFunction(i):
+    return i  # linear probing
+
+function insert(key, value):
+    for i = 0 to size - 1:
+        index = (hashFunction(key, size) + probeFunction(i)) mod size
+        if table[index] is empty or deleted:
+            table[index] = (key, value)
+            return
+    error "Table full"
+
+function search(key):
+    for i = 0 to size - 1:
+        index = (hashFunction(key, size) + probeFunction(i)) mod size
+        if table[index] is empty:
+            return null
+        if table[index].key == key:
+            return table[index].value
+    return null
+
+function delete(key):
+    for i = 0 to size - 1:
+        index = (hashFunction(key, size) + probeFunction(i)) mod size
+        if table[index] is empty:
+            return
+        if table[index].key == key:
+            mark table[index] as deleted
+            return

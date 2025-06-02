@@ -1,0 +1,18 @@
+// Algorithm: Subset Sum (Backtracking)
+// Type: Backtracking / Recursive
+// Time Complexity: O(2^n)           // Exponential in worst case
+// Space Complexity: O(n)             // For recursion stack
+
+function subsetSumBacktrack(arr, target, index, currentSubset):
+    if target == 0:
+        print currentSubset
+        return
+
+    if target < 0 or index == length(arr):
+        return
+
+    // Include current element
+    subsetSumBacktrack(arr, target - arr[index], index + 1, currentSubset + [arr[index]])
+
+    // Exclude current element
+    subsetSumBacktrack(arr, target, index + 1, currentSubset)

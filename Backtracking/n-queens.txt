@@ -1,0 +1,18 @@
+// Algorithm: N-Queens
+// Type: Backtracking
+// Time Complexity: O(N!)           // Worst-case for placing N queens
+// Space Complexity: O(N^2)         // For storing the board
+
+function solveNQueens(board, row, N):
+    if row == N:
+        print board
+        return
+
+    for col from 0 to N-1:
+        if isSafe(board, row, col):
+            placeQueen(board, row, col)
+            solveNQueens(board, row + 1, N)
+            removeQueen(board, row, col)
+
+function isSafe(board, row, col):
+    check column, and both diagonals

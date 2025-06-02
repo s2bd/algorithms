@@ -1,0 +1,22 @@
+// Algorithm: 0/1 Knapsack Problem
+// Type: Dynamic Programming
+// Time Complexity: O(n × W)     (n = number of items, W = capacity)
+// Space Complexity: O(n × W)
+
+function knapsack(weights, values, capacity):
+    n = length(weights)
+    dp = 2D array of size (n+1) x (capacity+1)
+
+    for i from 0 to n:
+        for w from 0 to capacity:
+            if i == 0 or w == 0:
+                dp[i][w] = 0
+            else if weights[i-1] <= w:
+                dp[i][w] = max(
+                    values[i-1] + dp[i-1][w - weights[i-1]],
+                    dp[i-1][w]
+                )
+            else:
+                dp[i][w] = dp[i-1][w]
+
+    return dp[n][capacity]

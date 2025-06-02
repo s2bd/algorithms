@@ -1,0 +1,12 @@
+# Algorithm: Quick Sort
+# Type: Sorting, Divide and Conquer
+# Time Complexity: O(n log n) average, O(n²) worst
+# Space Complexity: O(log n) auxiliary (due to recursion)
+
+function quickSort(arr):
+    if length(arr) <= 1:
+        return arr
+    pivot = arr[0]
+    less = [x for x in arr[1:] if x <= pivot]
+    greater = [x for x in arr[1:] if x > pivot]
+    return quickSort(less) + [pivot] + quickSort(greater)

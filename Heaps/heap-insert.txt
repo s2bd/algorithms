@@ -1,0 +1,14 @@
+# Algorithm: Heap Insert
+# Type: Heap, Insertion
+# Time Complexity: O(log n)
+# Space Complexity: O(1)
+
+function heapInsert(arr, value):
+    append value to arr
+    index = length(arr) - 1
+    while index > 0 and arr[parent(index)] < arr[index]:
+        swap arr[parent(index)], arr[index]
+        index = parent(index)
+
+function parent(i):
+    return floor((i - 1) / 2)

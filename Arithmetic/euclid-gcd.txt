@@ -1,0 +1,11 @@
+// Algorithm: Euclidean Algorithm for GCD
+// Type: Number Theory, Recursive/Iterative
+// Time Complexity: O(log(min(a, b)))
+// Space Complexity: O(1) iterative, O(log(min(a, b))) recursive
+
+function gcd(a, b):
+    while b ≠ 0:
+        temp = b
+        b = a mod b
+        a = temp
+    return a

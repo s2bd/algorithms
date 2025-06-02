@@ -1,0 +1,27 @@
+# Algorithm: Hash Table with Separate Chaining
+# Type: Data Structure, Hashing
+# Time Complexity: Average O(1) insert/search/delete; Worst O(n)
+# Space Complexity: O(n)
+
+initialize hashTable as array of empty lists
+
+function hashFunction(key, size):
+    return key mod size
+
+function insert(key, value):
+    index = hashFunction(key, size)
+    append (key, value) to hashTable[index]
+
+function search(key):
+    index = hashFunction(key, size)
+    for each (k,v) in hashTable[index]:
+        if k == key:
+            return v
+    return null
+
+function delete(key):
+    index = hashFunction(key, size)
+    for each (k,v) in hashTable[index]:
+        if k == key:
+            remove (k,v) from hashTable[index]
+            return
