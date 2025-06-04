@@ -1,0 +1,12 @@
+// Algorithm: Selection Sort
+// Type: Sorting (Comparison-based)
+// Time Complexity: O(n^2)
+// Space Complexity: O(1)
+
+function selectionSort(arr):
+    for i from 0 to length(arr) - 1:
+        minIndex = i
+        for j from i+1 to length(arr) - 1:
+            if arr[j] < arr[minIndex]:
+                minIndex = j
+        swap arr[i] and arr[minIndex]
