@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorting Algorithms Visualizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-6">Sorting Algorithms Visualizer</h1>
+
+    <div class="flex flex-col md:flex-row gap-4 mb-4">
+      <input type="text" id="inputData" placeholder="Enter numbers e.g. 1, 5, 35, -29, 20, 0, 0.123" class="w-full p-2 border rounded" />
+      <input type="file" id="fileInput" class="p-2" />
+      <select id="algorithm" class="p-2 border rounded">
+        <option value="bubble">Bubble Sort</option>
+        <option value="selection">Selection Sort</option>
+        <option value="insertion">Insertion Sort</option>
+        <option value="bucket">Bucket Sort</option>
+        <option value="merge">Merge Sort</option>
+        <option value="quick">Quick Sort</option>
+      </select>
+      <button onclick="startSort()" class="bg-blue-500 text-white px-4 py-2 rounded">Sort</button>
+    </div>
+
+    <div id="visualization" class="flex items-end space-x-1 h-64 bg-white border rounded p-2 overflow-x-auto"></div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Data Statistics</h2>
+        <p><strong>Count:</strong> <span id="stat-count"></span></p>
+        <p><strong>Min:</strong> <span id="stat-min"></span></p>
+        <p><strong>Max:</strong> <span id="stat-max"></span></p>
+        <p><strong>Average:</strong> <span id="stat-avg"></span></p>
+      </div>
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Sort Progress</h2>
+        <p><strong>Algorithm:</strong> <span id="stat-algo"></span></p>
+        <p><strong>Iterations:</strong> <span id="stat-iter"></span></p>
+        <p><strong>Current Index:</strong> <span id="stat-index"></span></p>
+        <p><strong>Pivot:</strong> <span id="stat-pivot"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let data = [];
+    let stats = { iter: 0, index: '', pivot: '' };
+
+    document.getElementById('fileInput').addEventListener('change', function (e) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        document.getElementById('inputData').value = reader.result;
+      };
+      reader.readAsText(e.target.files[0]);
+    });
+
+    function parseInput() {
+      return document.getElementById('inputData').value
+        .split(',')
+        .map(x => parseFloat(x.trim()))
+        .filter(x => !isNaN(x));
+    }
+
+    function updateStats(data) {
+      document.getElementById('stat-count').innerText = data.length;
+      document.getElementById('stat-min').innerText = Math.min(...data);
+      document.getElementById('stat-max').innerText = Math.max(...data);
+      document.getElementById('stat-avg').innerText = (data.reduce((a, b) => a + b, 0) / data.length).toFixed(2);
+    }
+
+    function updateSortStats(algo, index = '', pivot = '') {
+      stats.iter++;
+      stats.index = index;
+      stats.pivot = pivot;
+      document.getElementById('stat-algo').innerText = algo;
+      document.getElementById('stat-iter').innerText = stats.iter;
+      document.getElementById('stat-index').innerText = index;
+      document.getElementById('stat-pivot').innerText = pivot;
+    }
+
+    function draw(data, highlighted = []) {
+      updateStats(data);
+      const container = document.getElementById('visualization');
+      container.innerHTML = '';
+      const max = Math.max(...data.map(Math.abs));
+
+      data.forEach((val, i) => {
+        const height = (Math.abs(val) / max) * 100;
+        const bar = document.createElement('div');
+        bar.style.height = `${height}%`;
+        bar.style.width = '20px';
+        bar.className = `bg-${highlighted.includes(i) ? 'red' : 'blue'}-500 rounded`;
+        container.appendChild(bar);
+      });
+    }
+
+    async function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function bubbleSort(arr) {
+      let a = [...arr];
+      stats.iter = 0;
+      for (let i = 0; i < a.length; i++) {
+        for (let j = 0; j < a.length - i - 1; j++) {
+          updateSortStats('Bubble Sort', j);
+          if (a[j] > a[j + 1]) {
+            [a[j], a[j + 1]] = [a[j + 1], a[j]];
+          }
+          draw(a, [j, j + 1]);
+          await sleep(100);
+        }
+      }
+      return a;
+    }
+
+    async function selectionSort(arr) {
+      let a = [...arr];
+      stats.iter = 0;
+      for (let i = 0; i < a.length; i++) {
+        let min = i;
+        for (let j = i + 1; j < a.length; j++) {
+          updateSortStats('Selection Sort', j);
+          if (a[j] < a[min]) min = j;
+          draw(a, [i, j]);
+          await sleep(100);
+        }
+        [a[i], a[min]] = [a[min], a[i]];
+      }
+      draw(a);
+      return a;
+    }
+
+    async function insertionSort(arr) {
+      let a = [...arr];
+      stats.iter = 0;
+      for (let i = 1; i < a.length; i++) {
+        let key = a[i];
+        let j = i - 1;
+        updateSortStats('Insertion Sort', i);
+        while (j >= 0 && a[j] > key) {
+          a[j + 1] = a[j];
+          draw(a, [j, j + 1]);
+          await sleep(100);
+          j--;
+        }
+        a[j + 1] = key;
+      }
+      draw(a);
+      return a;
+    }
+
+    async function bucketSort(arr) {
+      let a = [...arr];
+      stats.iter = 0;
+      const max = Math.max(...a);
+      const min = Math.min(...a);
+      const bucketCount = Math.floor(Math.sqrt(a.length));
+      const buckets = Array.from({ length: bucketCount }, () => []);
+
+      for (let i = 0; i < a.length; i++) {
+        const idx = Math.floor(((a[i] - min) / (max - min + 1)) * bucketCount);
+        buckets[Math.min(idx, bucketCount - 1)].push(a[i]);
+        updateSortStats('Bucket Sort', i);
+        draw(a, [i]);
+        await sleep(50);
+      }
+      a = [].concat(...buckets.map(b => b.sort((x, y) => x - y)));
+      draw(a);
+      return a;
+    }
+
+    async function mergeSort(arr) {
+      stats.iter = 0;
+      async function merge(a, l, m, r) {
+        const left = a.slice(l, m);
+        const right = a.slice(m, r);
+        let i = 0, j = 0;
+        for (let k = l; k < r; k++) {
+          updateSortStats('Merge Sort', k);
+          if (j >= right.length || (i < left.length && left[i] <= right[j])) {
+            a[k] = left[i++];
+          } else {
+            a[k] = right[j++];
+          }
+          draw([...a], [k]);
+          await sleep(100);
+        }
+      }
+
+      async function sort(a, l, r) {
+        if (r - l > 1) {
+          const m = Math.floor((l + r) / 2);
+          await sort(a, l, m);
+          await sort(a, m, r);
+          await merge(a, l, m, r);
+        }
+      }
+
+      let a = [...arr];
+      await sort(a, 0, a.length);
+      draw(a);
+      return a;
+    }
+
+    async function quickSort(arr) {
+      stats.iter = 0;
+      async function sort(a, low, high) {
+        if (low < high) {
+          const pi = await partition(a, low, high);
+          await sort(a, low, pi - 1);
+          await sort(a, pi + 1, high);
+        }
+      }
+
+      async function partition(a, low, high) {
+        const pivot = a[high];
+        let i = low;
+        updateSortStats('Quick Sort', '', pivot);
+        for (let j = low; j < high; j++) {
+          updateSortStats('Quick Sort', j, pivot);
+          if (a[j] < pivot) {
+            [a[i], a[j]] = [a[j], a[i]];
+            i++;
+          }
+          draw([...a], [i, j]);
+          await sleep(100);
+        }
+        [a[i], a[high]] = [a[high], a[i]];
+        return i;
+      }
+
+      let a = [...arr];
+      await sort(a, 0, a.length - 1);
+      draw(a);
+      return a;
+    }
+
+    async function startSort() {
+      data = parseInput();
+      if (data.length === 0) return alert('Invalid input');
+      const algo = document.getElementById('algorithm').value;
+      stats.iter = 0;
+      switch (algo) {
+        case 'bubble': await bubbleSort(data); break;
+        case 'selection': await selectionSort(data); break;
+        case 'insertion': await insertionSort(data); break;
+        case 'bucket': await bucketSort(data); break;
+        case 'merge': await mergeSort(data); break;
+        case 'quick': await quickSort(data); break;
+      }
+    }
+  </script>
+</body>
+
+</html>

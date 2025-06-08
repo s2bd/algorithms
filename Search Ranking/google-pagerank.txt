@@ -1,0 +1,17 @@
+// Algorithm: PageRank
+// Type: Graph, Ranking, Link Analysis
+// Time Complexity: O(k * (V + E)) where k = number of iterations
+// Space Complexity: O(V)
+
+function PageRank(graph, d = 0.85, max_iter = 100):
+    N = number of nodes in graph
+    rank = [1/N for each node]
+
+    for iter = 1 to max_iter:
+        new_rank = [ (1 - d) / N for each node ]
+        for each node u in graph:
+            for each neighbor v of u:
+                new_rank[v] += d * (rank[u] / out_degree(u))
+        rank = new_rank
+
+    return rank

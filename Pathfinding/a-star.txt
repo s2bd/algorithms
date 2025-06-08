@@ -1,0 +1,32 @@
+// Algorithm: A* Search
+// Type: Graph, Pathfinding, Heuristic-based Search
+// Time Complexity: O(E), worst-case exponential depending on heuristic
+// Space Complexity: O(V)
+
+function AStar(start, goal, graph, heuristic):
+    openSet = PriorityQueue()
+    openSet.push(start, 0)
+    cameFrom = empty map
+
+    gScore = map with default ∞
+    gScore[start] = 0
+
+    fScore = map with default ∞
+    fScore[start] = heuristic(start, goal)
+
+    while openSet is not empty:
+        current = openSet.pop()
+
+        if current == goal:
+            return reconstruct_path(cameFrom, current)
+
+        for each neighbor of current:
+            tentative_gScore = gScore[current] + dist(current, neighbor)
+            if tentative_gScore < gScore[neighbor]:
+                cameFrom[neighbor] = current
+                gScore[neighbor] = tentative_gScore
+                fScore[neighbor] = gScore[neighbor] + heuristic(neighbor, goal)
+                if neighbor not in openSet:
+                    openSet.push(neighbor, fScore[neighbor])
+
+    return failure

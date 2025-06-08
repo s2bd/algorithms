@@ -1,0 +1,32 @@
+// Algorithm: RRT* (Rapidly-exploring Random Tree Star)
+// Type: Motion Planning, Sampling-based, Optimization
+// Time Complexity: O(n log n) per iteration
+// Space Complexity: O(n) (n = number of samples)
+
+function RRT_Star(start, goal, map):
+    initialize tree T with start node
+    for i = 1 to max_iterations:
+        x_rand = sample_random_point()
+        x_nearest = nearest_node(T, x_rand)
+        x_new = steer(x_nearest, x_rand)
+
+        if is_obstacle_free(x_nearest, x_new):
+            X_near = near_nodes(T, x_new, radius)
+            x_min = x_nearest
+            c_min = cost(x_nearest) + distance(x_nearest, x_new)
+
+            for x_near in X_near:
+                if is_obstacle_free(x_near, x_new) and 
+                   cost(x_near) + distance(x_near, x_new) < c_min:
+                    x_min = x_near
+                    c_min = cost(x_near) + distance(x_near, x_new)
+
+            add_node(T, x_new)
+            add_edge(T, x_min, x_new)
+
+            for x_near in X_near:
+                if is_obstacle_free(x_new, x_near) and 
+                   cost(x_new) + distance(x_new, x_near) < cost(x_near):
+                    parent[x_near] = x_new
+
+    return path from start to goal in T
