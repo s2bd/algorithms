@@ -1,4 +1,4 @@
-# Cooper Black's Algorithm Basics
+# Algorithm Basics
 Learn and explore about the algorithms commonly studied in algorithm-related courses at the undergraduate level of university academics.
 
 As a glossary, these are the current algorithms available:
@@ -11,6 +11,8 @@ As a glossary, these are the current algorithms available:
   - [Merge Sort](/Sorting/merge-sort.txt)
   - [Quick Sort](/Sorting/quick-sort.txt)
   - [Topological Sort](/Sorting/topological-sort.txt)
+ > Use the [visualizer](https://s2bd.github.io/algorithms/Sorting) to explore the Sorting algorithms easily
+  
 - Graphs
   - [Breadth-First Search (BFS)](/Graphs/graph-bfs.txt)
   - [Depth-First Search (DFS)](/Graphs/graph-dfs.txt)
